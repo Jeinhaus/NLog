@@ -312,7 +312,7 @@ namespace NLog
                         }
                     }
 
-                    this.OnConfigurationChanged(new LoggingConfigurationChangedEventArgs(value, oldConfig));
+                    this.OnConfigurationChanged(new LoggingConfigurationChangedEventArgs(oldConfig, value));
                 }
             }
         }

@@ -313,6 +313,23 @@ namespace NLog.UnitTests
             Assert.True(factory.IsLoggingEnabled());
 
         }
+
+        [Fact]
+        public void SetConfigurationInvokesConfigurationChangedEvent()
+        {
+            LoggingConfiguration oldConfig = new LoggingConfiguration();
+            LoggingConfiguration newConfig = new LoggingConfiguration();
+            LogFactory factory = new LogFactory(oldConfig);
+            LoggingConfigurationChangedEventArgs invokedEventArgs = null;
+
+            factory.ConfigurationChanged += (_, args) => invokedEventArgs = args;
+            factory.Configuration = newConfig;
+
+            Assert.NotNull(invokedEventArgs);
+            Assert.NotSame(invokedEventArgs.NewConfiguration, invokedEventArgs.OldConfiguration);
+            Assert.Same(oldConfig, invokedEventArgs.OldConfiguration);
+            Assert.Same(newConfig, invokedEventArgs.NewConfiguration);
+        }
     }
 }
 #endif
